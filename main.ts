@@ -1,5 +1,6 @@
-
-
+controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
+    do_one_pattern()
+})
 function do_one_pattern () {
     q1 = sprites.create(img`
         ............................................................
@@ -253,19 +254,45 @@ function do_one_pattern () {
         ............................................................
         `, SpriteKind.Player)
     set_left_and_top(q4, 20, 60)
-    fillRandom(q1, pixels_per_cell_side) 
+    fillQ1randomly()
     reflect_q1_to_q234()
 }
-function fillRandom (q: Sprite, cell_size: number) {
-    for (let m = 0; m <= q.height / cell_size; m++) {
-        for (let n = 0; n <= q.width / cell_size; n++) {
-            let rColor = colors[randint(0, colors.length - 1)]
+controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
+    create_colors_list(nColors)
+    do_one_pattern()
+})
+function  fillQ1randomly () {
+    for (let m = 0; m <= q1.height / cell_size; m++) {
+        for (let n = 0; n <= q1.width / cell_size; n++) {
+            rColor = colors[randint(0, colors.length - 1)]
             for (let cell_i = 0; cell_i < cell_size; cell_i++) {
-                for (let cell_j = 0; cell_j < cell_size ; cell_j++) {
-                    q.image.setPixel(cell_size * n + cell_j, cell_size * m + cell_i, rColor)
+                for (let cell_j = 0; cell_j < cell_size; cell_j++) {
+                    q1.image.setPixel(cell_size* n + cell_j, cell_size * m + cell_i, rColor)
                 }
             }
         }
+    }
+}
+function set_left_and_top (mySprite: Sprite, left: number, top: number) {
+    mySprite.left = left
+    mySprite.top = top
+}
+function get_number_of_colors () {
+    ndx = 0
+    while (!(game.ask("number of colors: " + possible_nColors[ndx]))) {
+        ndx += 1
+        ndx= ndx % possible_nColors.length
+    }
+    return possible_nColors[ndx]
+}
+function create_colors_list (n: number) {
+    colors = []
+    for (let index = 0; index < n; index++) {
+        try_color = randint(1, 15)
+        while (colors.indexOf(try_color) > -1) {
+            try_color = randint(1, 15)
+        }
+        colors.push(try_color)
     }
 }
 function reflect_q1_to_q234 () {
@@ -277,42 +304,12 @@ function reflect_q1_to_q234 () {
         }
     }
 }
-function set_left_and_top (mySprite: Sprite, left: number, top: number) {
-    mySprite.left = left
-    mySprite.top = top
-}
-function create_colors_list (n: number) {
-    colors = []
-    let try_color = 0
-    for (let index = 0; index < n; index++) {
-        try_color = randint(1, 15)
-        while (colors.indexOf(try_color) > -1) {
-            try_color = randint(1, 15)
-        }
-        colors.push(try_color)
-    }
-}
 controller.A.onEvent(ControllerButtonEvent.Repeated, function () {
-    pixels_per_cell_side = get_pixels_per_cell_side()
+    cell_size = get_pixels_per_cell_side()
     nColors = get_number_of_colors()
     create_colors_list(nColors)
     do_one_pattern()
 })
-controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    create_colors_list(nColors)
-    do_one_pattern()
-})
-controller.B.onEvent(ControllerButtonEvent.Pressed, function () {
-    do_one_pattern()
-})
-function get_number_of_colors () {
-    ndx = 0
-    while (!(game.ask("number of colors: " + possible_nColors[ndx]))) {
-        ndx += 1
-        ndx = ndx % possible_nColors.length
-    }
-    return possible_nColors[ndx]
-}
 function get_pixels_per_cell_side () {
     let ndx = 0
     while (!(game.ask("pixels in cell side: " + possible_cell_sizes[ndx]))) {
@@ -321,8 +318,7 @@ function get_pixels_per_cell_side () {
     }
     return possible_cell_sizes[ndx]
 }
-let try_color: number=0
-let ndx: number = 0
+
 let q4: Sprite = null
 let q3: Sprite = null
 let q2: Sprite = null
@@ -330,9 +326,15 @@ let q1: Sprite = null
 let colors: number[] = []
 let possible_nColors: number[] = []
 let possible_cell_sizes: number[] = []
-let pixels_per_cell_side: number = 8
-let nColors: number = 2
-let rColor :number = 0
+let try_color: number = 0
+let rColor: number = 0
+let cell_size: number = 0
+let nColors: number = 0
+let ndx:  number = 0
+nColors = 2
+cell_size = 8
+rColor = 0
+try_color = 0
 possible_cell_sizes = [2, 4, 8, 16, 20]
 possible_nColors = [2, 3, 3, 4, 5]
 colors = []
