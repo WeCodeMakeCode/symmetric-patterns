@@ -273,17 +273,17 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     do_one_pattern()
 })
 function reflect_q1_to_q3 () {
-    for (let i = 0; i <= q1.height - 1; i++) {
-        for (let j = 0; j <= q1.width - 1; j++) {
-            q3.image.setPixel(q3.width - j - 1, q3.height - i - 1, q1.image.getPixel(j, i))
+    for (let k = 0; k <= q1.height - 1; k++) {
+        for (let l = 0; l <= q1.width - 1; l++) {
+            q3.image.setPixel(q3.width - l - 1, q3.height - k - 1, q1.image.getPixel(l, k))
         }
     }
 }
 function fillRandom (q: Sprite, cell_size: number) {
-    for (let i = 0; i <= q.height / cell_size; i++) {
-        for (let j = 0; j <= q.width / cell_size; j++) {
-            base_i = cell_size * i
-            base_j = cell_size * j
+    for (let m = 0; m <= q.height / cell_size; m++) {
+        for (let n = 0; n <= q.width / cell_size; n++) {
+            base_i = cell_size * m
+            base_j = cell_size * n
             rColor = colors[randint(0, colors.length - 1)]
             for (let cell_i = 0; cell_i <= cell_size - 1; cell_i++) {
                 for (let cell_j = 0; cell_j <= cell_size - 1; cell_j++) {
@@ -306,9 +306,9 @@ function get_number_of_colors () {
     return possible_nColors[ndx]
 }
 function reflect_q1_to_q4 () {
-    for (let i = 0; i <= q1.height - 1; i++) {
-        for (let j = 0; j <= q1.width - 1; j++) {
-            q4.image.setPixel(j, q4.height - i - 1, q1.image.getPixel(j, i))
+    for (let o = 0; o <= q1.height - 1; o++) {
+        for (let p = 0; p <= q1.width - 1; p++) {
+            q4.image.setPixel(p, q4.height - o - 1, q1.image.getPixel(p, o))
         }
     }
 }
@@ -336,20 +336,20 @@ function get_pixels_per_cell_side () {
     }
     return possible_cell_sizes[ndx]
 }
-let try_color = 0
-let ndx = 0
-let rColor = 0
-let base_j = 0
-let base_i = 0
+let try_color: number = 0
+let ndx: number = 0
+let rColor:number = 0
+let base_j: number = 0
+let base_i: number = 0
 let q4: Sprite = null
 let q3: Sprite = null
 let q2: Sprite = null
 let q1: Sprite = null
-let nColors = 0
+let nColors: number = 0
 let colors: number[] = []
-let possible_nColors = 0
-let possible_cell_sizes = 0
-let pixels_per_cell_side = 0
+let possible_nColors: number[] = []
+let possible_cell_sizes: number[] = []
+let pixels_per_cell_side:number = 0
 pixels_per_cell_side = 4
 possible_cell_sizes = [2, 4, 8, 16, 20]
 possible_nColors = [2, 3, 3, 4, 5]
